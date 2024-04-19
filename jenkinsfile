@@ -1,0 +1,44 @@
+pipeline 
+agent any
+
+stages {
+    stage(' git chechkout')
+
+    steps{
+        git 'https://github.com/ankit-jagtap-devops/terraform-eks-nodegroup.git'
+    }
+
+    stages{
+
+        stage("terrafrom init")
+
+        steps{
+
+            sh ("terraform init -reconfigure")
+        }
+    }
+
+    stages{
+
+        stage("terraform plan")
+
+        steps{
+
+            sh ("terraform plan")
+
+        }
+    }
+
+
+    stages {
+        stage("terraform apply")
+
+        steps{
+
+            echo "terraform action  is ${action}"
+            sh ('terraform "${action}--auto-approve')
+        }
+   
+   
+    }
+}
